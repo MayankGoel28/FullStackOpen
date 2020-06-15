@@ -1,8 +1,9 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import SubForm from './SubForm.js'
 import EachDeet from './EachDeet.js'
+import axios from 'axios'
 
-let totalid = 1
+let totalid = 10
 
 function doesNotExist(check, newobj) {
   for (var i = 0; i < newobj.length; i++) {
@@ -22,6 +23,16 @@ const App = () => {
     // { name: 'Dan Abramov', id: totalid++, num: '12-43-234345' },
     // { name: 'Mary Poppendieck', id: totalid++, num: '39-23-6423122' }
   ])
+  useEffect(() => {
+    console.log('effect')
+    axios
+      .get('http://localhost:3001/persons')
+      .then(response => {
+        console.log('promise fulfilled')
+        setPersons(response.data)
+      })
+  }, [])
+  //setPersons(promise)
   const [newName, setNewName] = useState('')
   const [newNum, setNewNum] = useState('')
 
@@ -30,7 +41,7 @@ const App = () => {
     const newobj = [...persons]
     console.log(newobj)
     if (newobj.length == 0 || doesNotExist(newName, newobj)) {
-      newobj.push({ name: newName, num: newNum, id: totalid++ })
+      newobj.push({ name: newName, number: newNum, id: totalid++ })
       setPersons(newobj)
     }
     else {
