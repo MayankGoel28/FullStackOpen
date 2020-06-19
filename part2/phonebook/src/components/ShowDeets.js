@@ -14,7 +14,7 @@ const ShowDeets = (props) => {
         <div>
             {
                 thing.map((person) =>
-                    <props.EachDeet key={person.id} person={person.name} number={person.number} />)
+                    <props.EachDeet setErr={props.setErr} persons={props.persons} setPersons={props.setPersons} key={person.id} id={person.id} person={person.name} number={person.number} />)
             }
         </div>
     )

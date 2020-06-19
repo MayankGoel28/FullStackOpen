@@ -1,5 +1,7 @@
 import React, { useState } from 'react'
 import ShowDeets from './ShowDeets.js'
+import ConfirmNotif from './ConfirmNotif.js'
+import ErrorNotif from './ErrorNotif.js'
 
 const SubForm = (props) => {
   const [newKey, setKey] = useState('')
@@ -14,6 +16,8 @@ const SubForm = (props) => {
           filter: <input value={newKey} onChange={handleSearch} />
         </div>
       </form>
+      <ConfirmNotif setMessage={props.setMessage} message={props.message} />
+      <ErrorNotif setErr={props.setMessage} err={props.err} />
       <h2> Add new </h2>
       <form onSubmit={props.addDeet}>
         <div>
@@ -27,7 +31,7 @@ const SubForm = (props) => {
         </div>
       </form>
       <h2>Numbers</h2>
-      {<ShowDeets newKey={newKey} persons={props.persons} EachDeet={props.EachDeet} />}
+      {<ShowDeets setErr={props.setErr} setPersons={props.setPersons} newKey={newKey} persons={props.persons} EachDeet={props.EachDeet} />}
     </div>
   )
 }

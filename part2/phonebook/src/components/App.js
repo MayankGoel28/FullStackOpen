@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import SubForm from './SubForm.js'
 import EachDeet from './EachDeet.js'
-import axios from 'axios'
+import apiserv from '../services/dbservices.js'
 
-let totalid = 10
 
 function doesNotExist(check, newobj) {
   for (var i = 0; i < newobj.length; i++) {
@@ -17,36 +16,63 @@ function doesNotExist(check, newobj) {
 }
 
 const App = () => {
-  const [persons, setPersons] = useState([
-    // { name: 'Arto Hellas', id: totalid++, num: '040-123456' },
-    // { name: 'Ada Lovelace', id: totalid++, numb: '39-44-5323523' },
-    // { name: 'Dan Abramov', id: totalid++, num: '12-43-234345' },
-    // { name: 'Mary Poppendieck', id: totalid++, num: '39-23-6423122' }
-  ])
+  const [persons, setPersons] = useState([])
+  const [totalid, setID] = useState(0)
   useEffect(() => {
-    console.log('effect')
-    axios
-      .get('http://localhost:3001/persons')
+    console.log('effect for fetch')
+    apiserv
+      .fetchy()
       .then(response => {
         console.log('promise fulfilled')
         setPersons(response.data)
+        console.log(response.data)
+        let maxid = 0
+        maxid = (response.data).reduce((maxid, num) => maxid < num.id ? num.id : maxid, 0);
+        setID(maxid > 0 ? maxid + 1 : 1)
+        console.log("id set is", maxid)
       })
   }, [])
-  //setPersons(promise)
+
   const [newName, setNewName] = useState('')
   const [newNum, setNewNum] = useState('')
+  const [message, setMessage] = useState(null)
+  const [err, setErr] = useState(null)
 
   const addDeet = (event) => {
     event.preventDefault()
-    const newobj = [...persons]
+    let newobj = [...persons]
     console.log(newobj)
     if (newobj.length == 0 || doesNotExist(newName, newobj)) {
-      newobj.push({ name: newName, number: newNum, id: totalid++ })
+      const newPerson = { name: newName, number: newNum, id: totalid }
+      setID(totalid + 1)
+      newobj.push(newPerson)
       setPersons(newobj)
+      apiserv
+        .posty(newPerson)
+        .then(response => console.log('added a dude with', totalid))
     }
     else {
-      window.alert(`${newName} is already added to phonebook`);
+      const editID = persons.find((person) => {
+        if (person.name === newName) {
+          return person.id
+        }
+      })
+      let editPerson = {}
+      newobj = persons.map((person) => {
+        if (person.name === newName) {
+          editPerson = { ...person, number: newNum }
+          console.log(editPerson, 'is edit person')
+          return editPerson
+        }
+        else return person
+      })
+      console.log(newobj)
+      setPersons(newobj)
+      apiserv
+        .putty(editID.id, editPerson)
+        .then(response => console.log('edited', newName))
     }
+    setMessage('Edit successful')
     setNewName('')
     setNewNum('')
   }
@@ -59,7 +85,7 @@ const App = () => {
     console.log(newNum)
   }
   return (
-    <SubForm addDeet={addDeet} newName={newName} newNum={newNum} handleName={handleName} handleNum={handleNum} persons={persons} EachDeet={EachDeet} />
+    <SubForm setMessage={setMessage} message={message} setErr={setMessage} err={err} addDeet={addDeet} setPersons={setPersons} newName={newName} newNum={newNum} handleName={handleName} handleNum={handleNum} persons={persons} EachDeet={EachDeet} />
   )
 
 }
