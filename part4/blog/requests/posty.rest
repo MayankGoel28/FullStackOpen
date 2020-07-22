@@ -1,2 +1,9 @@
-DELETE  http://localhost:3001/api/blogs/5f0ccd0e0e9ae29f49894af8
+POST  http://localhost:3001/api/blogs
 Content-Type: application/json
+
+{
+    "title": "YAS bro",
+    "author": "Michael Chasssn",
+    "url": "https://reactpassstternses.com/",
+    "likes": 2117
+}

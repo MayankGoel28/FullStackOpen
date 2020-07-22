@@ -2,7 +2,7 @@ const mongoose = require('mongoose')
 const supertest = require('supertest')
 const app = require('../app')
 const api = supertest(app)
-const Blog = require('../models/mongo')
+const Blog = require('../models/blogmodel')
 const jestConfig = require('../jest.config')
 
 const initialBlogs = [
