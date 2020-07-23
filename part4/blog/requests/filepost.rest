@@ -1,0 +1,10 @@
+POST  http://localhost:3001/api/blogs
+Content-Type: application/json
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im1heWFuayIsImlkIjoiNWYxOGFlNWFkM2I5ZTVmNzUxYzVlMzg2IiwiaWF0IjoxNTk1NDYwMjQzfQ.1TTSh91tmWF-Tf_orHDrvv_bW3KKYfgboW8MrmTpMZM
+
+{
+        "title": "bruh",
+        "author": "bugbruh",
+        "url": "https://reactpatterns.com/",
+        "likes": 1117
+}

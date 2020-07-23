@@ -13,7 +13,11 @@ usersRouter.post('/', async (request, response, next) => {
     const saltRounds = 10
     const passwordHash = await bcrypt.hash(body.password, saltRounds)
     const blog = await Blog.find({})
-    const blogsOfUser = blog.filter(eachBlog => eachBlog.user.id === body.id)
+    //console.log("The blog is ", blog)
+    let blogsOfUser = []
+    blogsOfUser = blog.filter(eachBlog => {
+        if (eachBlog.user) eachBlog.user.id === body.id
+    })
     const user = new User({
         username: body.username,
         name: body.name,

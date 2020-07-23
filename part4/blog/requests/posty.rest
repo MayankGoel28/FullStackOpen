@@ -2,8 +2,6 @@ POST  http://localhost:3001/api/blogs
 Content-Type: application/json
 
 {
-    "title": "YAS bro",
-    "author": "Michael Chasssn",
-    "url": "https://reactpassstternses.com/",
-    "likes": 2117
+    "username": "mayank",
+    "password": "goel"
 }
