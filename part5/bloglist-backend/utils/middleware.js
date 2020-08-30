@@ -8,8 +8,8 @@ const requestLogger = (request, response, next) => {
   next()
 }
 
-const unknownEndpoint = (response) => {
-  response.status(404).send({ error: 'unknown endpoint' })
+const unknownEndpoint = (request, response) => {
+  return response.status(404).json({ error: 'unknown endpoint' })
 }
 
 const tokenExtractor = (request, response, next) => {
